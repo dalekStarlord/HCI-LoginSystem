@@ -145,7 +145,7 @@ $username = htmlspecialchars($_SESSION['username']);
 <body>
     <div class="container">
         <h1>Goodbye, <span class="username"><?php echo $username; ?></span></h1>
-        <p class="message">Confirm Logout</p>
+        <p class="message">Are you sure you want to logout?</p>
         
         <div class="button-group">
             <a href="logout.php" class="btn btn-primary" id="logoutBtn">

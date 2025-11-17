@@ -83,13 +83,23 @@
             border: none;
             cursor: pointer;
             color: #999;
-            font-size: 16px;
             padding: 4px;
             transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
         }
 
         .password-toggle:hover {
             color: #1a1a1a;
+        }
+
+        .password-toggle svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
         }
 
         .password-strength {
@@ -136,6 +146,32 @@
 
         .password-hint.show {
             display: block;
+        }
+
+        .password-match {
+            font-size: 12px;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .password-match.show {
+            display: block;
+        }
+
+        .password-match.match {
+            color: #27ae60;
+        }
+
+        .password-match.mismatch {
+            color: #e74c3c;
+        }
+
+        input.password-mismatch {
+            border-color: #e74c3c;
+        }
+
+        input.password-match {
+            border-color: #27ae60;
         }
 
         .submit-btn {
@@ -261,12 +297,39 @@
                 <label for="password">Password</label>
                 <div class="input-wrapper">
                     <input type="password" id="password" name="password" required autocomplete="new-password" placeholder="Create password" minlength="6">
-                    <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">👁️</button>
+                    <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+                        <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg id="eyeSlashIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
+                    </button>
                 </div>
                 <div class="password-strength" id="passwordStrength">
                     <div class="password-strength-bar" id="passwordStrengthBar"></div>
                 </div>
                 <div class="password-hint" id="passwordHint">Password must be at least 6 characters</div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password" placeholder="Confirm password" minlength="6">
+                    <button type="button" class="password-toggle" id="confirmPasswordToggle" aria-label="Toggle password visibility">
+                        <svg id="confirmEyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg id="confirmEyeSlashIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="password-match" id="passwordMatch"></div>
             </div>
 
             <button type="submit" class="submit-btn" id="submitBtn">
@@ -287,7 +350,17 @@
         passwordToggle.addEventListener('click', function() {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            passwordToggle.textContent = type === 'password' ? '👁️' : '🙈';
+            
+            const eyeIcon = document.getElementById('eyeIcon');
+            const eyeSlashIcon = document.getElementById('eyeSlashIcon');
+            
+            if (type === 'password') {
+                eyeIcon.style.display = 'block';
+                eyeSlashIcon.style.display = 'none';
+            } else {
+                eyeIcon.style.display = 'none';
+                eyeSlashIcon.style.display = 'block';
+            }
         });
 
         const passwordStrength = document.getElementById('passwordStrength');
@@ -313,7 +386,62 @@
                 passwordStrength.classList.remove('show');
                 passwordHint.classList.remove('show');
             }
+
+            // Check password match when password field changes
+            checkPasswordMatch();
         });
+
+        // Confirm password toggle
+        const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        
+        confirmPasswordToggle.addEventListener('click', function() {
+            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordInput.setAttribute('type', type);
+            
+            const confirmEyeIcon = document.getElementById('confirmEyeIcon');
+            const confirmEyeSlashIcon = document.getElementById('confirmEyeSlashIcon');
+            
+            if (type === 'password') {
+                confirmEyeIcon.style.display = 'block';
+                confirmEyeSlashIcon.style.display = 'none';
+            } else {
+                confirmEyeIcon.style.display = 'none';
+                confirmEyeSlashIcon.style.display = 'block';
+            }
+        });
+
+        // Password match validation
+        const passwordMatch = document.getElementById('passwordMatch');
+
+        function checkPasswordMatch() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (confirmPassword.length === 0) {
+                passwordMatch.classList.remove('show', 'match', 'mismatch');
+                confirmPasswordInput.classList.remove('password-match', 'password-mismatch');
+                return;
+            }
+
+            passwordMatch.classList.add('show');
+
+            if (password === confirmPassword) {
+                passwordMatch.textContent = '✓ Passwords match';
+                passwordMatch.classList.remove('mismatch');
+                passwordMatch.classList.add('match');
+                confirmPasswordInput.classList.remove('password-mismatch');
+                confirmPasswordInput.classList.add('password-match');
+            } else {
+                passwordMatch.textContent = '✗ Passwords do not match';
+                passwordMatch.classList.remove('match');
+                passwordMatch.classList.add('mismatch');
+                confirmPasswordInput.classList.remove('password-match');
+                confirmPasswordInput.classList.add('password-mismatch');
+            }
+        }
+
+        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
 
         const registerForm = document.getElementById('registerForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -323,8 +451,9 @@
         registerForm.addEventListener('submit', function(e) {
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
 
-            if (!username || !password) {
+            if (!username || !password || !confirmPassword) {
                 e.preventDefault();
                 showError('Please fill in all fields');
                 return;
@@ -339,6 +468,12 @@
             if (password.length < 6) {
                 e.preventDefault();
                 showError('Password must be at least 6 characters');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                showError('Passwords do not match');
                 return;
             }
 
