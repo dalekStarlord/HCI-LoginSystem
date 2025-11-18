@@ -70,6 +70,12 @@
             border-color: #1a1a1a;
         }
 
+        input[type="text"].error,
+        input[type="password"].error {
+            border-color: #e74c3c;
+            background-color: #fff5f5;
+        }
+
         .input-wrapper {
             position: relative;
         }
@@ -185,6 +191,21 @@
             display: block;
         }
 
+        .success-message {
+            background: #efe;
+            color: #3c3;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border-left: 3px solid #3c3;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 32px 24px;
@@ -200,6 +221,7 @@
     <div class="container">
         <h2>Login</h2>
         <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
         <form method="POST" action="login.php" id="loginForm">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -261,30 +283,80 @@
         const errorMessage = document.getElementById('errorMessage');
 
         loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
 
             if (!username || !password) {
-                e.preventDefault();
                 showError('Please fill in all fields');
                 return;
             }
 
             submitBtn.classList.add('loading');
             submitBtn.disabled = true;
+
+            // Submit via fetch to check for errors
+            const formData = new FormData(loginForm);
+            fetch('login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+
+                // Check if login failed
+                if (data.includes('Incorrect password!') || data.includes('User not found!')) {
+                    showError('Invalid username or password');
+                    usernameInput.classList.add('error');
+                    passwordInput.classList.add('error');
+                } else {
+                    // Success - redirect to welcome page
+                    window.location.href = 'welcome.php';
+                }
+            })
+            .catch(() => {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            });
         });
 
         function showError(message) {
             errorMessage.textContent = message;
             errorMessage.classList.add('show');
+            successMessage.classList.remove('show');
             setTimeout(() => {
                 errorMessage.classList.remove('show');
             }, 5000);
         }
 
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.classList.add('show');
+            errorMessage.classList.remove('show');
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 5000);
+        }
+
+        // Remove error highlighting when user types
+        document.getElementById('username').addEventListener('input', function() {
+            this.classList.remove('error');
+        });
+        document.getElementById('password').addEventListener('input', function() {
+            this.classList.remove('error');
+        });
+
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('error')) {
             showError(urlParams.get('error'));
+        }
+        if (urlParams.get('success')) {
+            showSuccess(urlParams.get('success'));
         }
     </script>
 </body>

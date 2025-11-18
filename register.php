@@ -18,14 +18,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ss", $username, $hashed_password);
 
     if ($stmt->execute()) {
-        $message = "Registration successful! <a href='login.php'>Login here</a>";
-        echo $message;
+        $stmt->close();
+        $conn->close();
+        header("Location: loginForm.php?success=" . urlencode("Registration successful! Please login."));
+        exit;
     } else {
-        $message = "Error: Failed to register user.";
-        echo $message;
+        $stmt->close();
+        $conn->close();
+        header("Location: registerForm.php?error=" . urlencode("Error: Failed to register user."));
+        exit;
     }
-    echo $message;
-    $stmt->close();
-    $conn->close();
 }
 ?>
