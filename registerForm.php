@@ -148,21 +148,21 @@
             display: block;
         }
 
-        .password-match {
+        .password-match-text.show {
             font-size: 12px;
             margin-top: 6px;
             display: none;
         }
 
-        .password-match.show {
+        .password-match-text.show {
             display: block;
-        }
+        }   
 
-        .password-match.match {
+        .password-match-text.match.show {
             color: #27ae60;
         }
 
-        .password-match.mismatch {
+        .password-match-text.mismatch {
             color: #e74c3c;
         }
 
@@ -298,11 +298,11 @@
                 <div class="input-wrapper">
                     <input type="password" id="password" name="password" required autocomplete="new-password" placeholder="Create password" minlength="6">
                     <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
-                        <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg id="eyeIcon" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
-                        <svg id="eyeSlashIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <svg id="eyeSlashIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block;">
                             <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
                             <line x1="1" y1="1" x2="23" y2="23"></line>
                         </svg>
@@ -319,17 +319,17 @@
                 <div class="input-wrapper">
                     <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password" placeholder="Confirm password" minlength="6">
                     <button type="button" class="password-toggle" id="confirmPasswordToggle" aria-label="Toggle password visibility">
-                        <svg id="confirmEyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg id="confirmEyeIcon" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
-                        <svg id="confirmEyeSlashIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <svg id="confirmEyeSlashIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block;">
                             <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
                             <line x1="1" y1="1" x2="23" y2="23"></line>
                         </svg>
                     </button>
                 </div>
-                <div class="password-match" id="passwordMatch"></div>
+                <div class="password-match-text" id="passwordMatch"></div>
             </div>
 
             <button type="submit" class="submit-btn" id="submitBtn">
@@ -353,13 +353,13 @@
             
             const eyeIcon = document.getElementById('eyeIcon');
             const eyeSlashIcon = document.getElementById('eyeSlashIcon');
-            
+
             if (type === 'password') {
-                eyeIcon.style.display = 'block';
-                eyeSlashIcon.style.display = 'none';
-            } else {
                 eyeIcon.style.display = 'none';
                 eyeSlashIcon.style.display = 'block';
+            } else {
+                eyeIcon.style.display = 'block';
+                eyeSlashIcon.style.display = 'none';
             }
         });
 
@@ -401,13 +401,13 @@
             
             const confirmEyeIcon = document.getElementById('confirmEyeIcon');
             const confirmEyeSlashIcon = document.getElementById('confirmEyeSlashIcon');
-            
+
             if (type === 'password') {
-                confirmEyeIcon.style.display = 'block';
-                confirmEyeSlashIcon.style.display = 'none';
-            } else {
                 confirmEyeIcon.style.display = 'none';
                 confirmEyeSlashIcon.style.display = 'block';
+            } else {
+                confirmEyeIcon.style.display = 'block';
+                confirmEyeSlashIcon.style.display = 'none';
             }
         });
 

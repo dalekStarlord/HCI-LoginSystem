@@ -176,140 +176,132 @@ system/
 
 ## 🎨 Design
 
-### Design Philosophy
-The system uses a **minimalist design approach** with:
-- Clean white cards on light gray background
-- Simple black buttons with subtle hover effects
-- System fonts for optimal readability
-- Minimal shadows and borders
-- Focus on content and usability
+"""
+# [PROJECT_NAME]
 
-### Color Palette
-- **Background**: `#f5f5f5` (Light gray)
-- **Cards**: `#ffffff` (White)
-- **Text**: `#1a1a1a` (Dark gray/black)
-- **Secondary Text**: `#666` (Medium gray)
-- **Borders**: `#ddd` (Light gray)
-- **Buttons**: `#1a1a1a` (Black)
-- **Error**: `#c33` (Red)
-- **Success**: `#3c3` (Green)
+## Project Overview
 
-### Responsive Design
-- Mobile-first approach
-- Breakpoint at 480px
-- Flexible layouts
-- Touch-friendly buttons (minimum 44x44px)
+Short description:
 
-### Interactive Elements
-- Smooth transitions on hover
-- Loading spinners during form submission
-- Password visibility toggle
-- Real-time password strength indicator
-- Form validation feedback
+This project is a lightweight user authentication prototype implemented in PHP with a simple front-end. It demonstrates registration, login, session management, and basic client-side features such as password visibility toggles and strength indicators.
 
-## 🐛 Troubleshooting
+Main goals / Use case:
 
-### Common Issues
+- Provide a minimal, easy-to-understand authentication flow suitable for learning and small projects.
+- Serve as a starting template for integrating authentication into PHP-based applications.
+- Demonstrate secure practices (password hashing, prepared statements) in a compact codebase.
 
-#### Database Connection Error
-**Problem**: "Connection failed" error
-**Solution**: 
-- Check `test.php` credentials
-- Verify MySQL service is running
-- Ensure database `hci` exists
+## Team Roles
 
-#### Session Not Working
-**Problem**: User gets logged out immediately
-**Solution**:
-- Check PHP session configuration
-- Ensure `session_start()` is called before any output
-- Verify write permissions on session directory
+- [TEAM_MEMBER_1_NAME] – [PROJECT MANAGER]
+- [TEAM_MEMBER_2_NAME] – [BACKEND DEVELOPER]
+- [TEAM_MEMBER_3_NAME] – [FRONTEND DEVELOPER]
+- [TEAM_MEMBER_4_NAME] – [QA / TESTER]
 
-#### Password Not Working
-**Problem**: Can't login with correct password
-**Solution**:
-- Verify password was hashed during registration
-- Check if using `password_verify()` for comparison
-- Ensure database stores hashed passwords (60+ characters)
+## Technology Stack
 
-#### Redirect Issues
-**Problem**: Pages redirect incorrectly
-**Solution**:
-- Check file paths are correct
-- Verify `header()` is called before any output
-- Ensure `exit` or `die` after redirect
+### Frontend
 
-#### Form Not Submitting
-**Problem**: Form doesn't submit or shows errors
-**Solution**:
-- Check JavaScript console for errors
-- Verify form action paths are correct
-- Ensure PHP error reporting is enabled for debugging
+- HTML, CSS, JavaScript (vanilla)
 
-### Debug Mode
-To enable error reporting for debugging, add at the top of PHP files:
+### Backend
 
-```php
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+- PHP (compatible with PHP 7.4+)
+
+### Database
+
+- MySQL / MariaDB
+
+### Tools & Others
+
+- Git, XAMPP (or any PHP + MySQL stack), phpMyAdmin, Browser DevTools
+
+## Requirements / Prerequisites
+
+- PHP 7.4 or higher
+- MySQL or MariaDB server
+- Web server (Apache recommended when using XAMPP/WAMP/MAMP)
+- A modern web browser with JavaScript enabled
+
+Environment variables / config files:
+
+- Database config is in `test.php` (update host, username, password, database name as needed).
+
+## How to Run / Compile the Prototype Locally
+
+1. Clone or download the repository and place it in your webserver folder (examples):
+
+```bash
+# For XAMPP on Windows
+# Copy project to:
+C:\xampp\htdocs\system\
+
+# Or clone directly into the folder (example):
+cd C:\xampp\htdocs
+git clone <repository-url>
 ```
 
-**⚠️ Warning**: Disable error reporting in production!
+2. Configure the database connection in `test.php` (update credentials):
 
-## 📝 Code Notes
+```php
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbname = 'hci';
+```
 
-### Important Files
+3. Create the database and import the schema (using phpMyAdmin or CLI):
 
-#### `test.php`
-- Contains database connection configuration
-- Included in all backend processing files
-- **Note**: Remove `echo "Connected successfully!";` in production
+Using phpMyAdmin:
 
-#### `login.php`
-- Processes login form submission
-- Validates credentials against database
-- Creates session on successful login
-- **Note**: Missing POST method check - should add `if ($_SERVER["REQUEST_METHOD"] == "POST")`
+- Open `http://localhost/phpmyadmin`
+- Create a new database named `hci`
+- Import `hci.sql`
 
-#### `register.php`
-- Processes registration form
-- Hashes password before storage
-- Inserts new user into database
-- **Note**: Should add duplicate username check
+4. Start your web server (if using XAMPP, start Apache & MySQL), then open the app in your browser:
 
-#### `logout.php`
-- Destroys session data
-- Redirects to logout confirmation page
-- Clears all session variables
+```
+http://localhost/system/loginForm.php
+```
 
-## 🔄 Future Enhancements
+## Usage Instructions
 
-Potential improvements for the system:
-- [ ] Email verification
-- [ ] Password reset functionality
-- [ ] Remember me feature
-- [ ] Account profile management
-- [ ] Two-factor authentication
-- [ ] Rate limiting for login attempts
-- [ ] CSRF token protection
-- [ ] Admin panel
-- [ ] User roles and permissions
+- Access the app at `http://localhost/system/loginForm.php` (default local setup).
+- Register a new account via `registerForm.php`.
+- After registration, log in using the created credentials.
 
-## 📄 License
+Default test credentials (placeholder):
 
-This project is open source and available for educational purposes.
+- Username: `Hatdog123`
+- Password: `password123`
 
-## 👤 Author
+## Project Structure
 
-Created as a user authentication system demonstration.
+Key files and folders:
 
-## 🤝 Contributing
+- `loginForm.php` — Login page (frontend)
+- `login.php` — Login processing (backend)
+- `registerForm.php` — Registration page (frontend)
+- `register.php` — Registration processing (backend)
+- `welcome.php` — Protected welcome/dashboard page
+- `logout.php` / `logoutPage.php` — Logout processing and confirmation
+- `test.php` — Simple database connection config used by backend scripts
+- `hci.sql` — Database schema and sample data
+- `README.md` — This file
 
-Feel free to fork, modify, and use this project for your own purposes.
+
+## Troubleshooting
+
+- If you see database connection errors: check `test.php` credentials and ensure MySQL is running.
+- If pages redirect unexpectedly: confirm `session_start()` usage and file paths.
+
+## Contributing
+
+Feel free to fork and submit pull requests. Use the placeholders above when assigning roles.
 
 ---
 
 **Last Updated**: 2025
-**Version**: 1.0.0
+
+"""
 
