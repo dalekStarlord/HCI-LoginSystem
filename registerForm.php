@@ -287,7 +287,7 @@
         <div class="success-message" id="successMessage"></div>
         <form method="POST" action="register.php" id="registerForm">
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">Username/Email</label>
                 <div class="input-wrapper">
                     <input type="text" id="username" name="username" required autocomplete="username" placeholder="Choose username" minlength="3">
                 </div>

@@ -176,6 +176,23 @@
             text-decoration: underline;
         }
 
+        .forgot-row {
+            text-align: right;
+            margin-top: 8px;
+        }
+
+        .forgot-link {
+            font-size: 13px;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+            color: #333;
+        }
+
         .error-message {
             background: #fee;
             color: #c33;
@@ -244,6 +261,9 @@
                             <line x1="1" y1="1" x2="23" y2="23"></line>
                         </svg>
                     </button>
+                </div>
+                <div class="forgot-row">
+                    <a class="forgot-link" href="forgotPassword.php">Forgot password?</a>
                 </div>
             </div>
 
