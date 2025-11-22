@@ -12,19 +12,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Hash password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Insert into DB
-    $sql = "INSERT INTO accounts (username, password) VALUES (?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $username, $hashed_password);
+    // Check if username already exists
+    $sqlSelect = "SELECT username FROM accounts WHERE username = ?";
+    $selectStmt = $conn->prepare($sqlSelect);
+    $selectStmt->bind_param("s", $username);
+    $selectStmt->execute();
+    $selectResult = $selectStmt->get_result();
 
-    if ($stmt->execute()) {
-        $stmt->close();
-        $conn->close();
+    if ($selectResult->num_rows > 0) {
+        // Username exists
+        header("Location: registerForm.php?error=" . urlencode("Username already exists. Please choose another."));
+        exit;
+    }
+
+    // If not exists → insert new account
+    $sqlInsert = "INSERT INTO accounts (username, password) VALUES (?, ?)";
+    $insertStmt = $conn->prepare($sqlInsert);
+    $insertStmt->bind_param("ss", $username, $hashed_password);
+
+    if ($insertStmt->execute()) {
         header("Location: loginForm.php?success=" . urlencode("Registration successful! Please login."));
         exit;
     } else {
-        $stmt->close();
-        $conn->close();
         header("Location: registerForm.php?error=" . urlencode("Error: Failed to register user."));
         exit;
     }
