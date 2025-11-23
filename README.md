@@ -14,11 +14,11 @@ Main goals / Use case:
 
 ## Team Roles
 
-- [TEAM_MEMBER_1_NAME] – [PROJECT MANAGER]
-- [TEAM_MEMBER_2_NAME] – [BACKEND DEVELOPER]
-- [TEAM_MEMBER_3_NAME] – [FRONTEND DEVELOPER]
-- [TEAM_MEMBER_4_NAME] – [QA / TESTER]
-
+- [Gabreyl T. Abadies] – [Programmer]
+- [James Vincent B. Jagualing] – [Documentor]
+- [Mheirqrieh F. Mangharal] – [Documentor]
+- [Aeldon James A. Onda] – [Documentor]
+- [Jefel Joe V. Villacorta] – [Programmer]
 ## Technology Stack
 
 ### Frontend
